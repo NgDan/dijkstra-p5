@@ -1,21 +1,37 @@
 class Grid {
-    constructor(size){
-        this.size = size
+    constructor(gridSize){
+        this.gridSize = gridSize;
+        this.nodes = [];
+        this.edges = [];
+        this.nodeSize = width/this.gridSize;  
     }
-    draw(){
-        
-        //Draw grid lines
-        for(let i=0; i<this.size; i++){
-            line(i*width/this.size-1,0,i*width/this.size-1,height);
-            line(0,i*width/this.size-1,height,i*width/this.size-1);
-        }
 
-        // Highlight current rectangle that's being hovered 
-        rect(
-            mouseX - mouseX%(width/this.size)-1,
-            mouseY - mouseY%(height/this.size)-1,
-            width/this.size,
-            height/this.size
-        )
+    addNode(x,y){
+        let nodeAlreadyExists = false;
+        if(this.nodes == []){
+            this.nodes.push(new Node(x,y));
+        }else{
+        for(let i = 0; i < this.nodes.length; i++){
+            console.log(x)
+                if(this.nodes[i].posX == x && this.nodes[i].posY == y){
+                nodeAlreadyExists = true;
+            }
+            }
+            if (!nodeAlreadyExists){
+                this.nodes.push(new Node(x,y));
+            }
+        }
+    }
+    
+
+    show(){
+        //Draw grid lines
+        for(let i=0; i<this.gridSize; i++){
+            line(i*this.nodeSize-1,0,i*this.nodeSize-1,height);
+            line(0,i*this.nodeSize-1,height,i*this.nodeSize-1);
+        }
+        for(let i = 0; i < this.nodes.length; i++){
+            rect(this.nodes[i].posX,this.nodes[i].posY,this.nodeSize,this.nodeSize)
+        }
     }
 }

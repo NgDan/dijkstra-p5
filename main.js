@@ -1,8 +1,13 @@
 function setup() {
-  height = 600;
-  width = 600;
+  height = 800;
+  width = 800;
   createCanvas(width, height);
-  grid = new Grid(20, 7);
+  sliderValue = 5;
+  grid = new Grid(50, sliderValue);
+  let slider = document.querySelector(".slidecontainer input");
+  slider.addEventListener("input", function() {
+    grid.neighbourRadius = Math.pow(this.value * grid.nodeSize, 2);
+  });
 }
 
 function hightlightNode() {

@@ -5,6 +5,7 @@ class Grid {
     //edges are stored in an object because it's faster to lookup
     this.edges = {};
     this.nodeSize = width / this.gridSize;
+
     this.neighbourRadius = Math.pow(neighbourRadius * this.nodeSize, 2);
   }
 
@@ -25,16 +26,20 @@ class Grid {
         let reverseEdgeId = this.nodes[j]._id + this.nodes[i]._id;
         let weight = this.distanceBetweenNodes(this.nodes[i], this.nodes[j]);
 
+        // check if this edge is in the object already
         if (this.edges[edgeId] || this.edges[reverseEdgeId]) {
-        } else if (
+        }
+        // if it's not present, check if the edge is not connected to the same node and
+        // also check if the other node is withing the radius
+        else if (
           this.nodes[i] !== this.nodes[j] &&
           weight < this.neighbourRadius
         ) {
           this.edges[edgeId] = new Edge(this.nodes[i], this.nodes[j], weight);
-          console.log(this.edges[edgeId].weight);
         }
       }
     }
+    console.log(this.edges);
   }
 
   addNode(x, y) {
@@ -49,7 +54,6 @@ class Grid {
       }
       if (!nodeAlreadyExists) {
         this.nodes.push(new Node(x, y));
-        console.log(this.neighbourRadius);
       }
     }
     this.addEdges();

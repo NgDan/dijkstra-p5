@@ -4,7 +4,7 @@ function setup() {
     height = 800;
     width = 800;
     createCanvas(width,height);
-    grid = new Grid(20);
+    grid = new Grid(10);
 }
 
 
@@ -28,11 +28,10 @@ function mouseClicked(){
     let yPosition = mouseY - mouseY%(width/grid.gridSize)-1;
 
     grid.addNode(xPosition,yPosition);
-    console.log(grid.nodes)
 } 
 
 function draw() {
     background(200);
-    grid.show();
     hightlightNode();
+    grid.show();
 }

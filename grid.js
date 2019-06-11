@@ -28,7 +28,9 @@ class Grid {
 
         // check if this edge is in the object already
         if (this.edges[edgeId] || this.edges[reverseEdgeId]) {
+          console.log("same!");
         }
+
         // if it's not present, check if the edge is not connected to the same node and
         // also check if the other node is withing the radius
         else if (
@@ -39,7 +41,26 @@ class Grid {
         }
       }
     }
-    console.log(this.edges);
+  }
+
+  deleteEdges() {
+    if (this.nodes.length < 2) {
+      return;
+    }
+    for (let i = 0; i < this.nodes.length; i++) {
+      for (let j = 0; j < this.nodes.length; j++) {
+        let edgeId = this.nodes[i]._id + this.nodes[j]._id;
+        let reverseEdgeId = this.nodes[j]._id + this.nodes[i]._id;
+        let weight = this.distanceBetweenNodes(this.nodes[i], this.nodes[j]);
+
+        if (
+          typeof this.edges[edgeId] !== "undefined" &&
+          this.edges[edgeId].weight > this.neighbourRadius
+        ) {
+          delete this.edges[edgeId];
+        }
+      }
+    }
   }
 
   addNode(x, y) {
@@ -57,6 +78,8 @@ class Grid {
       }
     }
     this.addEdges();
+    this.deleteEdges();
+    console.log(grid.edges);
   }
 
   show() {

@@ -1,12 +1,14 @@
 function setup() {
-  height = 800;
-  width = 800;
+  height = 600;
+  width = 600;
   createCanvas(width, height);
   sliderValue = 5;
-  grid = new Grid(50, sliderValue);
+  grid = new Grid(10, sliderValue);
   let slider = document.querySelector(".slidecontainer input");
   slider.addEventListener("input", function() {
     grid.neighbourRadius = Math.pow(this.value * grid.nodeSize, 2);
+    grid.addEdges();
+    grid.deleteEdges();
   });
 }
 
@@ -22,7 +24,9 @@ function mouseClicked() {
   let xPosition = mouseX - (mouseX % (width / grid.gridSize)) - 1;
   let yPosition = mouseY - (mouseY % (width / grid.gridSize)) - 1;
 
-  grid.addNode(xPosition, yPosition);
+  if (mouseX < width && mouseY < width && mouseX < width && mouseY < width) {
+    grid.addNode(xPosition, yPosition);
+  }
 }
 
 function draw() {

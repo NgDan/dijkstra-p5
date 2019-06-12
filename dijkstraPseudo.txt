@@ -1,0 +1,7 @@
+first, you need 2 lists: visited and unvisited nodes. By default al the nodes are in unvisited at first and the visited is empty
+
+Set start vertex
+Create table with all nodes and distance from starting node to each node. Default value of starting node is 0 and the rest are set to 'infinity'. Two columns, one for shortest distance from start and one for previous node
+Visit its unvisited neighbours.
+Calculate the distance from current node (vertex) to each neighbour (check first if it's in the visited list). You have to add current node's distance from the table to the edge's length. If neighbour distance < current distance, update the table for both columns (shortest distance from start and previous neighbour)
+Add current node to list of visited nodes and change current node to the one that's 'closest' to it

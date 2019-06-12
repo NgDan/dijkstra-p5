@@ -8,7 +8,6 @@ function setup() {
   slider.addEventListener("input", function() {
     grid.neighbourRadius = Math.pow(this.value * grid.nodeSize, 2);
     grid.addEdges();
-    grid.deleteEdges();
   });
 }
 

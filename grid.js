@@ -39,19 +39,6 @@ class Grid {
         ) {
           this.edges[edgeId] = new Edge(this.nodes[i], this.nodes[j], weight);
         }
-      }
-    }
-  }
-
-  deleteEdges() {
-    if (this.nodes.length < 2) {
-      return;
-    }
-    for (let i = 0; i < this.nodes.length; i++) {
-      for (let j = 0; j < this.nodes.length; j++) {
-        let edgeId = this.nodes[i]._id + this.nodes[j]._id;
-        let reverseEdgeId = this.nodes[j]._id + this.nodes[i]._id;
-        let weight = this.distanceBetweenNodes(this.nodes[i], this.nodes[j]);
 
         if (
           typeof this.edges[edgeId] !== "undefined" &&
@@ -78,7 +65,6 @@ class Grid {
       }
     }
     this.addEdges();
-    this.deleteEdges();
     console.log(grid.edges);
   }
 

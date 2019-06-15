@@ -16,7 +16,7 @@ class Grid {
     );
   }
 
-  addEdges() {
+  addEdges(radius) {
     if (this.nodes.length < 2) {
       return;
     }
@@ -33,16 +33,13 @@ class Grid {
 
         // if it's not present, check if the edge is not connected to the same node and
         // also check if the other node is withing the radius
-        else if (
-          this.nodes[i] !== this.nodes[j] &&
-          weight < this.neighbourRadius
-        ) {
+        else if (this.nodes[i] !== this.nodes[j] && weight < radius) {
           this.edges[edgeId] = new Edge(this.nodes[i], this.nodes[j], weight);
         }
 
         if (
           typeof this.edges[edgeId] !== "undefined" &&
-          this.edges[edgeId].weight > this.neighbourRadius
+          this.edges[edgeId].weight > radius
         ) {
           delete this.edges[edgeId];
         }
@@ -64,7 +61,7 @@ class Grid {
         this.nodes.push(new Node(x, y));
       }
     }
-    this.addEdges();
+    this.addEdges(this.neighbourRadius);
     console.log(grid.edges);
   }
 

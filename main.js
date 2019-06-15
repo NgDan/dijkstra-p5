@@ -6,8 +6,9 @@ function setup() {
   grid = new Grid(10, sliderValue);
   let slider = document.querySelector(".slidecontainer input");
   slider.addEventListener("input", function() {
-    grid.neighbourRadius = Math.pow(this.value * grid.nodeSize, 2);
-    grid.addEdges();
+    let radius = Math.pow(this.value * grid.nodeSize, 2);
+    grid.neighbourRadius = radius;
+    grid.addEdges(radius);
   });
 }
 

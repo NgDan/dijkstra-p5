@@ -1,5 +1,5 @@
 class Grid {
-  constructor(gridSize, radius, hasStartNode, hasEndNode) {
+  constructor(gridSize, radius, startNode = null, endNode = null) {
 
     this.gridSize = gridSize;
 
@@ -7,9 +7,9 @@ class Grid {
     //edges are stored in an object instead of array because it's faster to lookup
     this.edges = {};
 
-    this.hasStartNode = hasStartNode
+    this.startNode = startNode;
 
-    this.hasEndNode = hasEndNode
+    this.endNode = endNode;
 
     this.unvisitedNodes = []
 
@@ -69,13 +69,28 @@ class Grid {
         }
       }
       if (!nodeAlreadyExists) {
-        this.nodes.push(new Node(x, y, isStart, isEnd));
+        let node = new Node(x, y, isStart, isEnd)
+        this.nodes.push(node);
+        if(isStart){
+          this.startNode = node;
+        }
+        else if (isEnd){
+          this.endNode = node
+        }
       }
     }
     this.connectNodesWithinRadius(this.radius);
     document.querySelector('.nodes').innerHTML = ': ' + this.nodes.length;
     document.querySelector('.edges').innerHTML = ': ' + Object.keys(this.edges).length;
    
+  }
+
+  dijkstra(){
+    const getNeighbours = (node) => {
+      console.log(node)
+    } 
+    getNeighbours(this.startNode)
+
   }
 
   show() {
@@ -87,14 +102,14 @@ class Grid {
     for (let i = 0; i < this.nodes.length; i++) {
       if (this.nodes[i].isStart){
 
-        fill('green')
+        fill('green');
         rect(
           this.nodes[i].posX,
           this.nodes[i].posY,
           this.nodeSize,
           this.nodeSize
         );
-
+        fill('white');
       }
 
       else if(this.nodes[i].isEnd){
@@ -105,6 +120,7 @@ class Grid {
           this.nodeSize,
           this.nodeSize
         );
+        fill('white');
       }
       else{
         fill('white')
@@ -129,8 +145,5 @@ class Grid {
       stroke("black");
     }
   }
-
-  dijkstra(){
-
-  }
+  
 }

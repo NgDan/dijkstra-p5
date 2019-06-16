@@ -3,7 +3,7 @@ function setup() {
   width = 600;
   createCanvas(width, height);
   sliderValue = 5;
-  grid = new Grid(10, sliderValue, false, false);
+  grid = new Grid(10, sliderValue);
 
   let slider = document.querySelector(".slidecontainer input");
 
@@ -53,5 +53,6 @@ function draw() {
   background(200);
   hightlightNode();
   grid.show();
+  grid.dijkstra()
 
 }

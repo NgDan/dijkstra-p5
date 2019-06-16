@@ -4,6 +4,11 @@ class Grid {
     this.nodes = [];
     //edges are stored in an object instead of array because it's faster to lookup
     this.edges = {};
+
+    this.unvisitedNodes = []
+
+    this.visitedNodes = []
+
     this.nodeSize = width / this.gridSize;
 
     this.radius = Math.pow(radius * this.nodeSize, 2);
@@ -62,6 +67,8 @@ class Grid {
       }
     }
     this.connectNodesWithinRadius(this.radius);
+    document.querySelector('.nodes').innerHTML = ': ' + this.nodes.length;
+    document.querySelector('.edges').innerHTML = ': ' + Object.keys(this.edges).length;
    
   }
 
@@ -91,5 +98,9 @@ class Grid {
       strokeWeight(1);
       stroke("black");
     }
+  }
+
+  dijkstra(){
+
   }
 }

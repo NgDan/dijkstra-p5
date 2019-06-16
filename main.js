@@ -23,18 +23,13 @@ function snapToGrid(position){
 
 function hightlightNode() {
   // Highlight current rectangle that's being hovered
-  let xPosition = snapToGrid(mouseX);
-  let yPosition = snapToGrid(mouseY);
 
-  rect(xPosition, yPosition, width / grid.gridSize, height / grid.gridSize);
+  rect(snapToGrid(mouseX), snapToGrid(mouseY), width / grid.gridSize, height / grid.gridSize);
 }
 
 function mouseClicked() {
-  let xPosition = snapToGrid(mouseX);
-  let yPosition = snapToGrid(mouseY);
-
   if (mouseX < width && mouseY < width && mouseX < width && mouseY < width) {
-    grid.addNode(xPosition, yPosition);
+    grid.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
   }
 }
 

@@ -1,12 +1,12 @@
 class Grid {
-  constructor(gridSize, neighbourRadius) {
+  constructor(gridSize, radius) {
     this.gridSize = gridSize;
     this.nodes = [];
-    //edges are stored in an object because it's faster to lookup
+    //edges are stored in an object instead of array because it's faster to lookup
     this.edges = {};
     this.nodeSize = width / this.gridSize;
 
-    this.neighbourRadius = Math.pow(neighbourRadius * this.nodeSize, 2);
+    this.radius = Math.pow(radius * this.nodeSize, 2);
   }
 
   distanceBetweenNodes(node1, node2) {
@@ -16,7 +16,7 @@ class Grid {
     );
   }
 
-  addEdges(radius) {
+  connectNodesWithinRadius(radius) {
     if (this.nodes.length < 2) {
       return;
     }
@@ -61,8 +61,8 @@ class Grid {
         this.nodes.push(new Node(x, y));
       }
     }
-    this.addEdges(this.neighbourRadius);
-    console.log(grid.edges);
+    this.connectNodesWithinRadius(this.radius);
+   
   }
 
   show() {

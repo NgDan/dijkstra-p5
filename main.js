@@ -7,15 +7,20 @@ function setup() {
   let slider = document.querySelector(".slidecontainer input");
   slider.addEventListener("input", function() {
     let radius = Math.pow(this.value * grid.nodeSize, 2);
-    grid.neighbourRadius = radius;
-    grid.addEdges(radius);
+    grid.radius = radius;
+    grid.connectNodesWithinRadius(radius);
+    console.log(grid)
   });
+}
+
+function snapToGrid(position){
+  return position - (position % (width / grid.gridSize)) - 1
 }
 
 function hightlightNode() {
   // Highlight current rectangle that's being hovered
-  let xPosition = mouseX - (mouseX % (width / grid.gridSize)) - 1;
-  let yPosition = mouseY - (mouseY % (width / grid.gridSize)) - 1;
+  let xPosition = snapToGrid(mouseX);
+  let yPosition = snapToGrid(mouseY);
 
   rect(xPosition, yPosition, width / grid.gridSize, height / grid.gridSize);
 }

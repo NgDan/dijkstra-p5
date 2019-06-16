@@ -1,5 +1,5 @@
 class Node{
-    constructor(posX, posY, isStart=false, isEnd=false){
+    constructor(posX, posY, isStart, isEnd){
         this._id = posX.toString() + posY.toString();
         this.isStart = isStart;
         this.isEnd = isEnd;

@@ -3,7 +3,7 @@ function setup() {
   width = 600;
   createCanvas(width, height);
   sliderValue = 5;
-  grid = new Grid(10, sliderValue);
+  grid = new Grid(10, sliderValue, false, false);
 
   let slider = document.querySelector(".slidecontainer input");
 
@@ -34,6 +34,17 @@ function mouseClicked() {
 }
 
 function keyPressed(){
+  // when you press the S key, add start node
+  if(keyCode === 83 && !grid.hasStartNode){
+    grid.addNode(snapToGrid(mouseX), snapToGrid(mouseY), true, false);
+    grid.hasStartNode = true;
+  }
+
+  // when you press the E key, add end node
+  if(keyCode === 69 && !grid.hasEndNode){
+    grid.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
+    grid.hasEndNode = true;
+  }
   console.log(keyCode)
   console.log()
 }

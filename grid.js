@@ -1,9 +1,15 @@
 class Grid {
-  constructor(gridSize, radius) {
+  constructor(gridSize, radius, hasStartNode, hasEndNode) {
+
     this.gridSize = gridSize;
+
     this.nodes = [];
     //edges are stored in an object instead of array because it's faster to lookup
     this.edges = {};
+
+    this.hasStartNode = hasStartNode
+
+    this.hasEndNode = hasEndNode
 
     this.unvisitedNodes = []
 
@@ -52,10 +58,10 @@ class Grid {
     }
   }
 
-  addNode(x, y) {
+  addNode(x, y, isStart=false, isEnd=false) {
     let nodeAlreadyExists = false;
     if (this.nodes == []) {
-      this.nodes.push(new Node(x, y));
+      this.nodes.push(new Node(x, y, isStart, isEnd));
     } else {
       for (let i = 0; i < this.nodes.length; i++) {
         if (this.nodes[i].posX == x && this.nodes[i].posY == y) {
@@ -63,7 +69,7 @@ class Grid {
         }
       }
       if (!nodeAlreadyExists) {
-        this.nodes.push(new Node(x, y));
+        this.nodes.push(new Node(x, y, isStart, isEnd));
       }
     }
     this.connectNodesWithinRadius(this.radius);
@@ -79,12 +85,36 @@ class Grid {
       line(0, i * this.nodeSize - 1, height, i * this.nodeSize - 1);
     }
     for (let i = 0; i < this.nodes.length; i++) {
-      rect(
-        this.nodes[i].posX,
-        this.nodes[i].posY,
-        this.nodeSize,
-        this.nodeSize
-      );
+      if (this.nodes[i].isStart){
+
+        fill('green')
+        rect(
+          this.nodes[i].posX,
+          this.nodes[i].posY,
+          this.nodeSize,
+          this.nodeSize
+        );
+
+      }
+
+      else if(this.nodes[i].isEnd){
+        fill('red')
+        rect(
+          this.nodes[i].posX,
+          this.nodes[i].posY,
+          this.nodeSize,
+          this.nodeSize
+        );
+      }
+      else{
+        fill('white')
+        rect(
+          this.nodes[i].posX,
+          this.nodes[i].posY,
+          this.nodeSize,
+          this.nodeSize
+        );
+      }
     }
     for (let i = 0; i < Object.keys(this.edges).length; i++) {
       stroke("red");

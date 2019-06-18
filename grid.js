@@ -39,7 +39,6 @@ class Grid {
 
         // check if this edge is in the object already
         if (this.edges[edgeId] || this.edges[reverseEdgeId]) {
-          console.log("same!");
         }
 
         // if it's not present, check if the edge is not connected to the same node and
@@ -87,8 +86,20 @@ class Grid {
 
   dijkstra(){
     const getNeighbours = (node) => {
-      console.log(node)
-    } 
+      if(node !== null) {
+        const neighbours = Object.keys(this.edges).filter((edge)=>{
+          return this.edges[edge].node1 === node || this.edges[edge].node2 === node;
+        }).map((key)=>{
+            if(this.edges[key].node1 === node){
+              return this.edges[key].node2
+            }else{
+              return this.edges[key].node1
+            }
+        })
+      }else{
+        return null;
+      }
+    }
     getNeighbours(this.startNode)
 
   }

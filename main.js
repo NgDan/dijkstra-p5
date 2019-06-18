@@ -13,7 +13,7 @@ function setup() {
     grid.connectNodesWithinRadius(radius);
     document.querySelector('.nodes').innerHTML = ': ' + grid.nodes.length;
     document.querySelector('.edges').innerHTML = ': ' + Object.keys(grid.edges).length;
-    console.log(grid)
+    grid.dijkstra();
   });
 }
 
@@ -45,14 +45,12 @@ function keyPressed(){
     grid.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
     grid.hasEndNode = true;
   }
-  console.log(keyCode)
-  console.log()
 }
 
 function draw() {
   background(200);
   hightlightNode();
   grid.show();
-  grid.dijkstra()
+  
 
 }

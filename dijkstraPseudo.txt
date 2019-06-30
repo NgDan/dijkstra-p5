@@ -1,3 +1,5 @@
+
+
 first, you need 2 lists: visited and unvisited nodes. By default al the nodes are in unvisited at first and the visited is empty
 
 Set start vertex

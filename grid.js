@@ -85,9 +85,16 @@ class Grid {
   }
 
   dijkstra(){
+
+    let currentNode = this.startNode;
+
+    grid.unvisitedNodes = this.nodes;
+    
+    console.log(this.edges)
+
     const getNeighbours = (node) => {
       if(node !== null) {
-        const neighbours = Object.keys(this.edges).filter((edge)=>{
+        return Object.keys(this.edges).filter((edge)=>{
           return this.edges[edge].node1 === node || this.edges[edge].node2 === node;
         }).map((key)=>{
             if(this.edges[key].node1 === node){
@@ -100,7 +107,23 @@ class Grid {
         return null;
       }
     }
-    getNeighbours(this.startNode)
+
+
+    for (let i = 0; i < grid.unvisitedNodes.length; i++){
+      let neighbours = getNeighbours(currentNode);
+
+      for (let i = 0; i < neighbours.length; i++){
+        // get distance between current node and iterated neighbour
+        let distance = currentNode.shortestDistFromStart + this.distanceBetweenNodes(neighbours[i], currentNode);
+
+        if(neighbours[i].shortestDistFromStart === 'infinity' || neighbours[i].shortestDistFromStart > distance){
+          this.edges[neighbours[i]._id].shortestDistFromStart = distance;
+          this.edges[neighbours[i]._id].previousNode = currentNode;
+        }
+
+      }
+    }
+    console.log(this.edges )
 
   }
 

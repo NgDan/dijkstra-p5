@@ -1,3 +1,11 @@
+const updateDOM = () => {
+  document.querySelector(".nodes").innerHTML =
+    ": " + Object.keys(grid.newNodes).length;
+  document.querySelector(".edges").innerHTML =
+    ": " + Object.keys(grid.newEdges.edges).length;
+}
+
+
 function setup() {
   height = 500;
   width = 500;
@@ -9,19 +17,20 @@ function setup() {
 
   let slider = document.querySelector(".slidecontainer input");
 
-  slider.addEventListener("input", function() {
+  slider.addEventListener("input", function () {
     let radius = Math.pow(this.value * grid.nodeSize, 2);
     grid.radius = radius;
-    // grid.connectNodesWithinRadius(radius);
-    document.querySelector(".nodes").innerHTML =
-      ": " + Object.keys(grid.newNodes).length;
-    document.querySelector(".edges").innerHTML =
-      ": " + grid.newEdges.edges.length;
-
     grid.newNodes.connectNodesWithinRadius(radius);
-    // grid.dijkstra();
+    // grid.connectNodesWithinRadius(radius);
+    updateDOM();
+
+    // console.log(grid.newNodes.nodes)
+
+    grid.dijkstra();
   });
 }
+
+
 
 function snapToGrid(position) {
   return position - (position % (width / grid.gridSize)) - 1;
@@ -42,6 +51,7 @@ function mouseClicked() {
   if (mouseX < width && mouseY < width && mouseX < width && mouseY < width) {
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    updateDOM();
   }
 }
 
@@ -52,6 +62,7 @@ function keyPressed() {
 
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), true, false);
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    updateDOM();
   }
 
   // when you press the E key, add end node
@@ -60,6 +71,7 @@ function keyPressed() {
 
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    updateDOM();
   }
 }
 

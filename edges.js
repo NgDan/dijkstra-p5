@@ -34,6 +34,10 @@ class Edges {
     }
   }
 
+  getNeighbourNodes(node) {
+    //get neighbours
+  }
+
   draw() {
     Object.keys(this.edges).map(item => {
       stroke("red");

@@ -24,49 +24,53 @@ class Grid {
     this.radius = Math.pow(radius * this.nodeSize, 2);
   }
 
-  // dijkstra() {
-  //   let currentNode = this.startNode;
+  dijkstra() {
+    let currentNode = this.newNodes.startNode;
 
-  //   grid.unvisitedNodes = this.nodes;
+    console.log(currentNode)
 
-  //   const getNeighbours = node => {
-  //     if (node !== null) {
-  //       return Object.keys(this.edges)
-  //         .filter(edge => {
-  //           return (
-  //             this.edges[edge].node1 === node || this.edges[edge].node2 === node
-  //           );
-  //         })
-  //         .map(key => {
-  //           if (this.edges[key].node1 === node) {
-  //             return this.edges[key].node2;
-  //           } else {
-  //             return this.edges[key].node1;
-  //           }
-  //         });
-  //     } else {
-  //       return null;
-  //     }
-  //   };
+    grid.unvisitedNodes = this.newNodes;
 
-  //   console.log(getNeighbours(currentNode));
+    //UPDATE NEIGHBOURS DISTANCES. THINK IF YOU WANT TO DO IT IN ONE FUNCTION OR MORE THAN ONE.
 
-  //   for (let i = 0; i < neighbours.length; i++) {
-  //     // get distance between current node and iterated neighbour
-  //     let distance =
-  //       currentNode.shortestDistFromStart +
-  //       this.distanceBetweenNodes(neighbours[i], currentNode);
+    // const getNeighbours = node => {
+    //     if (node !== null) {
+    //       return Object.keys(this.edges)
+    //         .filter(edge => {
+    //           return (
+    //             this.edges[edge].node1 === node || this.edges[edge].node2 === node
+    //           );
+    //         })
+    //         .map(key => {
+    //           if (this.edges[key].node1 === node) {
+    //             return this.edges[key].node2;
+    //           } else {
+    //             return this.edges[key].node1;
+    //           }
+    //         });
+    //     } else {
+    //       return null;
+    //     }
+    //   };
 
-  //     if (
-  //       neighbours[i].shortestDistFromStart === "infinity" ||
-  //       neighbours[i].shortestDistFromStart > distance
-  //     ) {
-  //       neighbours[i].shortestDistFromStart = distance;
-  //       this.edges[neighbours[i]._id].previousNode = currentNode;
-  //     }
-  //   }
-  //   console.log();
-  // }
+    //   console.log(getNeighbours(currentNode));
+
+    //   for (let i = 0; i < neighbours.length; i++) {
+    //     // get distance between current node and iterated neighbour
+    //     let distance =
+    //       currentNode.shortestDistFromStart +
+    //       this.distanceBetweenNodes(neighbours[i], currentNode);
+
+    //     if (
+    //       neighbours[i].shortestDistFromStart === "infinity" ||
+    //       neighbours[i].shortestDistFromStart > distance
+    //     ) {
+    //       neighbours[i].shortestDistFromStart = distance;
+    //       this.edges[neighbours[i]._id].previousNode = currentNode;
+    //     }
+    //   }
+    //   console.log();
+  }
 
   show() {
     //Draw grid lines

@@ -10,7 +10,8 @@ class Nodes {
   }
   addNode(x, y, isStart = false, isEnd = false) {
     let _id = x.toString() + y.toString();
-
+    isStart ? this.startNode = new Node(x, y, isStart, isEnd) : null;
+    isEnd ? this.endNode = new Node(x, y, isStart, isEnd) : null;
     if (
       Object.keys(this.nodes).length === 0 ||
       typeof this.nodes[_id] === "undefined"
@@ -49,7 +50,6 @@ class Nodes {
         if (weight > radius) {
           grid.newEdges.removeEdge(this.nodes[item], this.nodes[item2]);
         }
-        console.log(grid.newEdges);
       });
     });
 

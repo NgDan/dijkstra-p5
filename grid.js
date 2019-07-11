@@ -27,9 +27,12 @@ class Grid {
   dijkstra() {
     let currentNode = this.newNodes.startNode;
 
-    console.log(currentNode)
+    // console.log(currentNode)
 
     grid.unvisitedNodes = this.newNodes;
+    const neighbours = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.newNodes);
+
+    console.log(neighbours);
 
     //UPDATE NEIGHBOURS DISTANCES. THINK IF YOU WANT TO DO IT IN ONE FUNCTION OR MORE THAN ONE.
 

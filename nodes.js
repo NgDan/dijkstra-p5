@@ -24,6 +24,31 @@ class Nodes {
       ": " + Object.keys(grid.newEdges).length;
   }
 
+  updateNeighboursDistanceAndReturnClosest(node, edges, nodes) {
+    if (node !== null) {
+      // console.log(nodes);
+      // console.log(edges + '\n\n');
+
+      return Object.keys(edges.edges).filter(edge => {
+        return edges.edges[edge].node1._id === node._id || edges.edges[edge].node2._id === node._id;
+      }).map(key => {
+        let edge = edges.edges[key];
+        if (edge.node1._id === node._id) {
+          let neighbourNode = edge.node2._id;
+          //here if this edge's weight is smaller than shortestDistFrom start, update it
+          return neighbourNode;
+        } else {
+          let neighbourNode = edge.node1._id;
+
+          return neighbourNode;
+        }
+      })
+
+    } else {
+      return null;
+    }
+  }
+
   getNodesNumber() {
     return Object.keys(this.nodes).length;
   }

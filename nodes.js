@@ -24,25 +24,59 @@ class Nodes {
       ": " + Object.keys(grid.newEdges).length;
   }
 
+
+  getDistanceBetweenNodes(node1id, node2id, nodes) {
+    return Math.pow(nodes[node1id].posX - nodes[node2id].posX, 2) + Math.pow(nodes[node1id].posY - nodes[node2id].posY, 2)
+  }
+
+
   updateNeighboursDistanceAndReturnClosest(node, edges, nodes) {
     if (node !== null) {
       // console.log(nodes);
       // console.log(edges + '\n\n');
+      let shortestWeight = 1000000000;
+      let closestNeighbour;
 
-      return Object.keys(edges.edges).filter(edge => {
+      Object.keys(edges.edges).filter(edge => {
         return edges.edges[edge].node1._id === node._id || edges.edges[edge].node2._id === node._id;
       }).map(key => {
         let edge = edges.edges[key];
+        let currentDistanceFromStart = node.shortestDistFromStart + edge.weight;
         if (edge.node1._id === node._id) {
-          let neighbourNode = edge.node2._id;
-          //here if this edge's weight is smaller than shortestDistFrom start, update it
+          let neighbourNode = edge.node2;
+          //here if this edge's weight + this nodes distance from start is smaller than shortestDistFrom start, update it
+          if (neighbourNode.shortestDistFromStart !== 'infinity') {
+            currentDistanceFromStart < neighbourNode.shortestDistFromStart ? (this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart, this.nodes[neighbourNode._id].previousNode = node) : null;
+          } else {
+            this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart;
+          }
+
+          if (edge.weight < shortestWeight) {
+            closestNeighbour = neighbourNode;
+            shortestWeight = edge.weight;
+          }
+
           return neighbourNode;
         } else {
-          let neighbourNode = edge.node1._id;
+          let neighbourNode = edge.node1;
+
+          if (neighbourNode.shortestDistFromStart !== 'infinity') {
+            currentDistanceFromStart < neighbourNode.shortestDistFromStart ? (this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart, this.nodes[neighbourNode._id].previousNode = node) : null;
+          } else {
+            this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart
+          }
+
+          if (edge.weight < shortestWeight) {
+            closestNeighbour = neighbourNode;
+            shortestWeight = edge.weight;
+          }
 
           return neighbourNode;
         }
       })
+
+      console.log(this.nodes)
+      return closestNeighbour;
 
     } else {
       return null;

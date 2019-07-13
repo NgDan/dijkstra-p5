@@ -30,9 +30,8 @@ class Grid {
     // console.log(currentNode)
 
     grid.unvisitedNodes = this.newNodes;
-    const neighbours = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.newNodes);
-
-    console.log(neighbours);
+    const closestNeighbour = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.newNodes);
+    console.log(closestNeighbour);
 
     //UPDATE NEIGHBOURS DISTANCES. THINK IF YOU WANT TO DO IT IN ONE FUNCTION OR MORE THAN ONE.
 

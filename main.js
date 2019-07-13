@@ -1,8 +1,7 @@
 const updateDOM = () => {
-  document.querySelector(".nodes").innerHTML =
-    ": " + Object.keys(grid.newNodes).length;
-  document.querySelector(".edges").innerHTML =
-    ": " + Object.keys(grid.newEdges.edges).length;
+  document.querySelector(".nodes").innerHTML = Object.keys(grid.newNodes.nodes).length;
+  document.querySelector(".edges").innerHTML = Object.keys(grid.newEdges.edges).length;
+
 }
 
 
@@ -21,6 +20,7 @@ function setup() {
     let radius = Math.pow(this.value * grid.nodeSize, 2);
     grid.radius = radius;
     grid.newNodes.connectNodesWithinRadius(radius);
+
     // grid.connectNodesWithinRadius(radius);
     updateDOM();
 

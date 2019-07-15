@@ -31,14 +31,10 @@ class Edges {
     }
   }
 
-  getNeighbourNodes(node) {
-    //get neighbours
-  }
-
-  draw() {
+  draw(color, strWeight) {
     Object.keys(this.edges).map(item => {
-      stroke("red");
-      strokeWeight(3);
+      stroke(color);
+      strokeWeight(strWeight);
       line(
         this.edges[item].node1.posX + grid.nodeSize / 2,
         this.edges[item].node1.posY + grid.nodeSize / 2,

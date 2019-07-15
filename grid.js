@@ -15,63 +15,62 @@ class Grid {
 
     this.endNode = endNode;
 
-    this.unvisitedNodes = [];
+    this.unvisitedNodes = new Nodes(nodeSize);
 
-    this.visitedNodes = [];
+    this.visitedNodes = new Nodes(nodeSize);
 
     this.nodeSize = nodeSize;
 
     this.radius = Math.pow(radius * this.nodeSize, 2);
+
+    this.shortestPath = new Edges;
   }
 
   dijkstra() {
+
     let currentNode = this.newNodes.startNode;
 
-    // console.log(currentNode)
+    let closestNeighbour;
+    // console.log(closestNeighbour);
 
-    grid.unvisitedNodes = this.newNodes;
-    const closestNeighbour = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.newNodes);
-    console.log(closestNeighbour);
+    // console.log(Object.keys(this.visitedNodes.nodes).length);
+    // console.log(Object.keys(this.unvisitedNodes.nodes).length);
+    // console.log(Object.keys(this.newNodes.nodes).length)
 
-    //UPDATE NEIGHBOURS DISTANCES. THINK IF YOU WANT TO DO IT IN ONE FUNCTION OR MORE THAN ONE.
 
-    // const getNeighbours = node => {
-    //     if (node !== null) {
-    //       return Object.keys(this.edges)
-    //         .filter(edge => {
-    //           return (
-    //             this.edges[edge].node1 === node || this.edges[edge].node2 === node
-    //           );
-    //         })
-    //         .map(key => {
-    //           if (this.edges[key].node1 === node) {
-    //             return this.edges[key].node2;
-    //           } else {
-    //             return this.edges[key].node1;
-    //           }
-    //         });
-    //     } else {
-    //       return null;
-    //     }
-    //   };
 
-    //   console.log(getNeighbours(currentNode));
+    while (Object.keys(this.unvisitedNodes.nodes).length > 0) {
 
-    //   for (let i = 0; i < neighbours.length; i++) {
-    //     // get distance between current node and iterated neighbour
-    //     let distance =
-    //       currentNode.shortestDistFromStart +
-    //       this.distanceBetweenNodes(neighbours[i], currentNode);
+      closestNeighbour = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.visitedNodes.nodes);
 
-    //     if (
-    //       neighbours[i].shortestDistFromStart === "infinity" ||
-    //       neighbours[i].shortestDistFromStart > distance
-    //     ) {
-    //       neighbours[i].shortestDistFromStart = distance;
-    //       this.edges[neighbours[i]._id].previousNode = currentNode;
-    //     }
-    //   }
-    //   console.log();
+      // console.log(this.visitedNodes.nodes);
+
+      this.unvisitedNodes.deleteNode(currentNode._id);
+      this.visitedNodes.addExistingNode(currentNode);
+
+      currentNode = closestNeighbour;
+    }
+
+
+
+    let backtrackNode;
+
+    Object.keys(this.newNodes.nodes).forEach(node => {
+      this.newNodes.nodes[node].isEnd ? backtrackNode = this.newNodes.nodes[node] : null;
+    })
+
+    console.log(backtrackNode);
+    console.log(this.newNodes.nodes);
+
+    while (backtrackNode._id !== this.newNodes.startNode._id) {
+      this.shortestPath.addEdge(backtrackNode, backtrackNode.previousNode);
+      backtrackNode = backtrackNode.previousNode;
+    }
+
+
+
+    console.log(this.shortestPath.edges);
+
   }
 
   show() {

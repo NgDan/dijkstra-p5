@@ -9,13 +9,13 @@ class Nodes {
     this.nodeSize = size;
 
     this.getNodes = () => {
-      return this.nodes
-    }
+      return this.nodes;
+    };
   }
   addNode(x, y, isStart = false, isEnd = false) {
     let _id = x.toString() + y.toString();
-    isStart ? this.startNode = new Node(x, y, isStart, isEnd) : null;
-    isEnd ? this.endNode = new Node(x, y, isStart, isEnd) : null;
+    isStart ? (this.startNode = new Node(x, y, isStart, isEnd)) : null;
+    isEnd ? (this.endNode = new Node(x, y, isStart, isEnd)) : null;
     if (
       Object.keys(this.nodes).length === 0 ||
       typeof this.nodes[_id] === "undefined"
@@ -37,44 +37,67 @@ class Nodes {
   }
 
   getDistanceBetweenNodes(node1id, node2id, nodes) {
-    return Math.pow(nodes[node1id].posX - nodes[node2id].posX, 2) + Math.pow(nodes[node1id].posY - nodes[node2id].posY, 2)
+    return Math.sqrt(
+      Math.pow(nodes[node1id].posX - nodes[node2id].posX, 2) +
+      Math.pow(nodes[node1id].posY - nodes[node2id].posY, 2)
+    );
   }
-
 
   updateNeighboursDistanceAndReturnClosest(node, edges, visitedNodes) {
     if (node !== null) {
-      let shortestWeight = 100000000000;
+      let shortestWeight = 10000000000000;
       let closestNeighbour;
 
-      Object.keys(edges.edges).filter(edge => {
-        // console.log(typeof visitedNodes[edges.edges[edge].node1._id] === 'undefined' || typeof visitedNodes[edges.edges[edge].node2._id] === 'undefined');
-        return edges.edges[edge].node1._id === node._id || edges.edges[edge].node2._id === node._id;
-      }).map(key => {
-        let edge = edges.edges[key];
-        let currentDistanceFromStart = node.shortestDistFromStart + edge.weight;
-        let neighbourNode;
-        edge.node1._id === node._id ? neighbourNode = edge.node2 : neighbourNode = edge.node1;
-        //here if this edge's weight + this nodes distance from start is smaller than shortestDistFrom start, update it
+      // console.log("edges: ");
+      // console.log(edges);
 
-        if (typeof visitedNodes[neighbourNode._id] === 'undefined') {
-          if (neighbourNode.shortestDistFromStart !== 'infinity') {
-            currentDistanceFromStart < neighbourNode.shortestDistFromStart ? (this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart, this.nodes[neighbourNode._id].previousNode = node) : null;
-          } else {
-            this.nodes[neighbourNode._id].shortestDistFromStart = currentDistanceFromStart;
-            this.nodes[neighbourNode._id].previousNode = node;
+      Object.keys(edges.edges)
+        .filter(edge => {
+          return (
+            edges.edges[edge].node1._id === node._id ||
+            edges.edges[edge].node2._id === node._id
+          );
+        })
+        .map(key => {
+          let edge = edges.edges[key];
+          let currentDistanceFromStart =
+            node.shortestDistFromStart + edge.weight;
+          let neighbourNode;
+          edge.node1._id === node._id
+            ? (neighbourNode = edge.node2)
+            : (neighbourNode = edge.node1);
+          //here if this edge's weight + this nodes distance from start is smaller than shortestDistFrom start, update it
+
+          if (typeof visitedNodes[neighbourNode._id] === "undefined") {
+            if (neighbourNode.shortestDistFromStart !== "infinity") {
+              currentDistanceFromStart < neighbourNode.shortestDistFromStart
+                ? ((grid.newNodes.nodes[
+                  neighbourNode._id
+                ].shortestDistFromStart = currentDistanceFromStart),
+                  (grid.newNodes.nodes[neighbourNode._id].previousNode = node))
+                : null;
+            } else {
+              grid.newNodes.nodes[
+                neighbourNode._id
+              ].shortestDistFromStart = currentDistanceFromStart;
+              grid.newNodes.nodes[neighbourNode._id].previousNode = node;
+            }
+            // if (edge.weight < shortestWeight) {
+            //   closestNeighbour = neighbourNode;
+            //   shortestWeight = edge.weight;
+            // }
+            return neighbourNode;
           }
-          if (edge.weight < shortestWeight) {
-            closestNeighbour = neighbourNode;
-            shortestWeight = edge.weight;
-          }
-          return neighbourNode;
+        });
+      Object.keys(this.nodes).forEach(id => {
+        if (this.nodes[id].shortestDistFromStart !== 'infinity' && this.nodes[id].shortestDistFromStart < shortestWeight && typeof visitedNodes[id] === "undefined") {
+          closestNeighbour = this.nodes[id];
+          shortestWeight = this.nodes[id].shortestDistFromStart;
         }
-
+        console.log(this.nodes[node])
       })
-
       // console.log(this.nodes)
       return closestNeighbour;
-
     } else {
       return null;
     }
@@ -86,7 +109,7 @@ class Nodes {
 
   connectNodesWithinRadius(radius) {
     const distanceBetweenNodes = (node1, node2) => {
-      return (
+      return Math.sqrt(
         Math.pow(Math.abs(node1.posX - node2.posX), 2) +
         Math.pow(Math.abs(node1.posY - node2.posY), 2)
       );

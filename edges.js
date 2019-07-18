@@ -8,7 +8,10 @@ class Edges {
     let reverseEdgeId = node2._id + node1._id;
 
     let edgeWeight = (node1, node2) => {
-      return Math.pow(node1.posX - node2.posX, 2) + Math.pow(node1.posY - node2.posY, 2);
+      return Math.sqrt(
+        Math.pow(node1.posX - node2.posX, 2) +
+          Math.pow(node1.posY - node2.posY, 2)
+      );
     };
 
     if (

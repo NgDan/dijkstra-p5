@@ -1,24 +1,26 @@
 const updateDOM = () => {
-  document.querySelector(".nodes").innerHTML = Object.keys(grid.newNodes.nodes).length;
-  document.querySelector(".edges").innerHTML = Object.keys(grid.newEdges.edges).length;
-
-}
-
+  document.querySelector(".nodes").innerHTML = Object.keys(
+    grid.newNodes.nodes
+  ).length;
+  document.querySelector(".edges").innerHTML = Object.keys(
+    grid.newEdges.edges
+  ).length;
+};
 
 function setup() {
   // frameRate(1);
-  height = 600;
-  width = 600;
+  height = 800;
+  width = 800;
   createCanvas(width, height);
   sliderValue = 10;
-  gridSize = 41;
+  gridSize = 60;
   nodeSize = width / gridSize;
   grid = new Grid(gridSize, sliderValue, nodeSize);
 
   let slider = document.querySelector(".slidecontainer input");
 
   slider.addEventListener("input", function () {
-    let radius = Math.pow(this.value * grid.nodeSize, 2);
+    let radius = this.value * grid.nodeSize;
     grid.radius = radius;
     grid.newNodes.connectNodesWithinRadius(radius);
 
@@ -26,12 +28,8 @@ function setup() {
     updateDOM();
 
     // console.log(grid.newNodes.nodes)
-
-
   });
 }
-
-
 
 function snapToGrid(position) {
   return position - (position % (width / grid.gridSize)) - 1;
@@ -54,6 +52,7 @@ function mouseClicked() {
     grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
 
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    console.log(grid.newEdges.edges);
     updateDOM();
   }
 }
@@ -64,7 +63,12 @@ function keyPressed() {
     grid.hasStartNode = true;
 
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), true, false);
-    grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), true, false);
+    grid.unvisitedNodes.addNode(
+      snapToGrid(mouseX),
+      snapToGrid(mouseY),
+      true,
+      false
+    );
     grid.newNodes.connectNodesWithinRadius(grid.radius);
     updateDOM();
   }
@@ -74,23 +78,27 @@ function keyPressed() {
     grid.hasEndNode = true;
 
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
-    grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
+    grid.unvisitedNodes.addNode(
+      snapToGrid(mouseX),
+      snapToGrid(mouseY),
+      false,
+      true
+    );
     grid.newNodes.connectNodesWithinRadius(grid.radius);
     updateDOM();
   }
   if (keyCode === 68) {
+    grid.shortestPath.edges = {};
     grid.dijkstra();
   }
-
 }
 
 function draw() {
   background(200);
   hightlightNode();
   grid.show();
-  grid.newNodes.draw('white');
+  grid.newNodes.draw("white");
   // grid.visitedNodes.draw('blue');
-  grid.newEdges.draw('red', 1);
-  grid.shortestPath.draw('yellow', 3);
-
+  grid.newEdges.draw("red", 1);
+  grid.shortestPath.draw("yellow", 3);
 }

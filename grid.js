@@ -21,27 +21,24 @@ class Grid {
 
     this.nodeSize = nodeSize;
 
-    this.radius = Math.pow(radius * this.nodeSize, 2);
+    this.radius = Math.sqrt(Math.pow(radius * this.nodeSize, 2));
 
-    this.shortestPath = new Edges;
+    this.shortestPath = new Edges();
   }
 
   dijkstra() {
 
+
     let currentNode = this.newNodes.startNode;
 
     let closestNeighbour;
-    // console.log(closestNeighbour);
-
-    // console.log(Object.keys(this.visitedNodes.nodes).length);
-    // console.log(Object.keys(this.unvisitedNodes.nodes).length);
-    // console.log(Object.keys(this.newNodes.nodes).length)
-
-
 
     while (Object.keys(this.unvisitedNodes.nodes).length > 0) {
-
-      closestNeighbour = grid.newNodes.updateNeighboursDistanceAndReturnClosest(currentNode, this.newEdges, this.visitedNodes.nodes);
+      closestNeighbour = grid.newNodes.updateNeighboursDistanceAndReturnClosest(
+        currentNode,
+        this.newEdges,
+        this.visitedNodes.nodes
+      );
 
       // console.log(this.visitedNodes.nodes);
 
@@ -49,28 +46,22 @@ class Grid {
       this.visitedNodes.addExistingNode(currentNode);
 
       currentNode = closestNeighbour;
+
+      // console.log(currentNode);
     }
-
-
 
     let backtrackNode;
 
     Object.keys(this.newNodes.nodes).forEach(node => {
-      this.newNodes.nodes[node].isEnd ? backtrackNode = this.newNodes.nodes[node] : null;
-    })
-
-    console.log(backtrackNode);
-    console.log(this.newNodes.nodes);
+      this.newNodes.nodes[node].isEnd
+        ? (backtrackNode = this.newNodes.nodes[node])
+        : null;
+    });
 
     while (backtrackNode._id !== this.newNodes.startNode._id) {
       this.shortestPath.addEdge(backtrackNode, backtrackNode.previousNode);
       backtrackNode = backtrackNode.previousNode;
     }
-
-
-
-    console.log(this.shortestPath.edges);
-
   }
 
   show() {

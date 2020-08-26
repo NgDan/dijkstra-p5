@@ -1,6 +1,8 @@
 body {
   display: flex;
   flex-flow: column-reverse;
+  display: flex;
+  flex-flow: column;
 }
 .slidecontainer {
   margin-top: 30px;

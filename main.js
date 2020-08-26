@@ -1,8 +1,8 @@
 const updateDOM = () => {
-  document.querySelector(".nodes").innerHTML = Object.keys(
+  document.querySelector('.nodes').innerHTML = Object.keys(
     grid.newNodes.nodes
   ).length;
-  document.querySelector(".edges").innerHTML = Object.keys(
+  document.querySelector('.edges').innerHTML = Object.keys(
     grid.newEdges.edges
   ).length;
 };
@@ -11,15 +11,16 @@ function setup() {
   // frameRate(1);
   height = 800;
   width = 800;
-  createCanvas(width, height);
+  const cnv = createCanvas(width, height);
+  cnv.parent('canvascontainer');
   sliderValue = 10;
   gridSize = 60;
   nodeSize = width / gridSize;
   grid = new Grid(gridSize, sliderValue, nodeSize);
 
-  let slider = document.querySelector(".slidecontainer input");
+  let slider = document.querySelector('.slidecontainer input');
 
-  slider.addEventListener("input", function () {
+  slider.addEventListener('input', function () {
     let radius = this.value * grid.nodeSize;
     grid.radius = radius;
     grid.newNodes.connectNodesWithinRadius(radius);
@@ -47,7 +48,7 @@ function hightlightNode() {
 }
 
 function mouseClicked() {
-  if (mouseX < width && mouseY < width && mouseX < width && mouseY < width) {
+  if (mouseX < width && mouseY < width && mouseX > 0 && mouseY > 0) {
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
     grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
 
@@ -94,11 +95,13 @@ function keyPressed() {
 }
 
 function draw() {
+  // console.log('mouseX: ', mouseX);
+  // console.log('mouseY: ', mouseY);
   background(200);
   hightlightNode();
   grid.show();
-  grid.newNodes.draw("white");
+  grid.newNodes.draw('white');
   // grid.visitedNodes.draw('blue');
-  grid.newEdges.draw("red", 1);
-  grid.shortestPath.draw("yellow", 3);
+  grid.newEdges.draw('red', 1);
+  grid.shortestPath.draw('yellow', 3);
 }

@@ -5,5 +5,16 @@ body {
   flex-flow: column;
 }
 .slidecontainer {
-  margin-top: 30px;
+  margin-top: 1rem;
+}
+
+.instructions-wrapper p {
+  margin: 0;
+}
+.red-bg {
+  background-color: red;
+}
+.white-bg {
+  transition: background-color 200ms ease-in;
+  background-color: white;
 }

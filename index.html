@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Dijkstra p5</title>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
-    <script src="node.js"></script>
-    <script src="edge.js"></script>
-    <script src="nodes.js"></script>
-    <script src="edges.js"></script>
-    <script src="grid.js"></script>
-    <script src="main.js"></script>
   </head>
 
   <body>
+    <div class="instructions-wrapper">
+      <p>Hover over a cell and press "S" to choose a starting point</p>
+    </div>
     <div class="slidecontainer">
       <label>Range</label>
       <input
@@ -28,12 +24,18 @@
       />
     </div>
     <div>
-      <h2>Number of nodes: <span class="nodes"></span></h2>
+      <p>Number of nodes: <span class="nodes"></span></p>
     </div>
     <div>
-      <h2>Number of edges: <span class="edges"></span></h2>
+      <p>Number of edges: <span class="edges"></span></p>
     </div>
     <div id="canvascontainer"></div>
   </body>
   <link rel="stylesheet" href="main.css" />
+  <script src="node.js"></script>
+  <script src="edge.js"></script>
+  <script src="nodes.js"></script>
+  <script src="edges.js"></script>
+  <script src="grid.js"></script>
+  <script src="main.js"></script>
 </html>

@@ -18,3 +18,10 @@ body {
   transition: background-color 200ms ease-in;
   background-color: white;
 }
+
+.nodes-wrapper p {
+  margin: 1rem 0;
+}
+.edges-wrapper p {
+  margin: 0 0 1rem 0;
+}

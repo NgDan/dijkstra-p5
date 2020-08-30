@@ -7,6 +7,18 @@ const updateDOM = () => {
   ).length;
 };
 
+const createState = (initialState) => {
+  let state = initialState;
+  const getState = () => state;
+  const setState = (value) => {
+    state = value;
+    return state;
+  };
+  return { setState, getState };
+};
+
+const state = createState('initial');
+
 const hightLightInstructionMsg = () => {
   const msgElement = document.querySelector('.instructions-wrapper p');
   scrollTo(0, 0);
@@ -28,6 +40,10 @@ const updateInstructions = () => {
   if (!!grid.hasStartNode && !!grid.hasEndNode) {
     message =
       'Make sure all nodes are connected by dragging the slider or adding more nodes and press "D"';
+  }
+  if (!!grid.hasStartNode && !!grid.hasEndNode && state.getState() === 'end') {
+    message =
+      'You should see the shortest path in yellow. If something went wrong please refresh the page and follow the instructions again';
   }
   msgElement.innerText = message;
 };
@@ -77,19 +93,32 @@ function mouseClicked() {
     mouseY > 0 &&
     grid.hasStartNode
   ) {
-    grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
-    grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
+    if (state.getState() === 'start-node') {
+      grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
+      grid.unvisitedNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY));
 
-    grid.newNodes.connectNodesWithinRadius(grid.radius);
-    console.log(grid.newEdges.edges);
-    updateDOM();
-    updateInstructions();
-  } else {
+      grid.newNodes.connectNodesWithinRadius(grid.radius);
+      updateDOM();
+      updateInstructions();
+    } else {
+      hightLightInstructionMsg();
+    }
+  }
+  if (state.getState() === 'initial') {
     hightLightInstructionMsg();
   }
 }
 
 function keyPressed() {
+  if (state.getState() === 'initial' && keyCode !== 83) {
+    hightLightInstructionMsg();
+  }
+  if (state.getState() === 'start-node' && keyCode !== 69) {
+    hightLightInstructionMsg();
+  }
+  if (state.getState() === 'end-node' && keyCode !== 68) {
+    hightLightInstructionMsg();
+  }
   // when you press the S key, add start node
   if (keyCode === 83 && !grid.hasStartNode) {
     grid.hasStartNode = true;
@@ -102,6 +131,7 @@ function keyPressed() {
       false
     );
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    state.setState('start-node');
     updateDOM();
     updateInstructions();
   }
@@ -117,29 +147,28 @@ function keyPressed() {
       true
     );
     grid.newNodes.connectNodesWithinRadius(grid.radius);
+    state.setState('end-node');
     updateDOM();
     updateInstructions();
-  } else {
-    hightLightInstructionMsg();
   }
   if (keyCode === 68) {
     grid.shortestPath.edges = {};
     if (!!grid.hasStartNode && !!grid.hasEndNode) {
+      state.setState('end');
       grid.dijkstra();
-    } else {
+      updateInstructions();
+    }
+    if (state.getState() === 'end') {
       hightLightInstructionMsg();
     }
   }
 }
 
 function draw() {
-  // console.log('mouseX: ', mouseX);
-  // console.log('mouseY: ', mouseY);
   background(200);
   hightlightNode();
   grid.show();
   grid.newNodes.draw('white');
-  // grid.visitedNodes.draw('blue');
   grid.newEdges.draw('red', 1);
   grid.shortestPath.draw('yellow', 3);
 }

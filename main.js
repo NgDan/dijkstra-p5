@@ -1,10 +1,6 @@
 const updateDOM = () => {
-  document.querySelector('.nodes').innerHTML = Object.keys(
-    grid.newNodes.nodes
-  ).length;
-  document.querySelector('.edges').innerHTML = Object.keys(
-    grid.newEdges.edges
-  ).length;
+  document.querySelector('.nodes').innerHTML = grid.getNumberOfNodes();
+  document.querySelector('.edges').innerHTML = grid.getNumberOfEdges();
 };
 
 const createState = (initialState) => {
@@ -113,7 +109,10 @@ function keyPressed() {
   if (state.getState() === 'initial' && keyCode !== 83) {
     hightLightInstructionMsg();
   }
-  if (state.getState() === 'start-node' && keyCode !== 69) {
+  if (
+    (state.getState() === 'start-node' && keyCode !== 69) ||
+    (keyCode === 69 && grid.getNumberOfNodes() <= 1)
+  ) {
     hightLightInstructionMsg();
   }
   if (state.getState() === 'end-node' && keyCode !== 68) {
@@ -137,7 +136,12 @@ function keyPressed() {
   }
 
   // when you press the E key, add end node
-  if (keyCode === 69 && !grid.hasEndNode && grid.hasStartNode) {
+  if (
+    keyCode === 69 &&
+    !grid.hasEndNode &&
+    grid.hasStartNode &&
+    grid.getNumberOfNodes() > 1
+  ) {
     grid.hasEndNode = true;
     grid.newNodes.addNode(snapToGrid(mouseX), snapToGrid(mouseY), false, true);
     grid.unvisitedNodes.addNode(

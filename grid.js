@@ -27,8 +27,6 @@ class Grid {
   }
 
   dijkstra() {
-
-
     let currentNode = this.newNodes.startNode;
 
     let closestNeighbour;
@@ -52,7 +50,7 @@ class Grid {
 
     let backtrackNode;
 
-    Object.keys(this.newNodes.nodes).forEach(node => {
+    Object.keys(this.newNodes.nodes).forEach((node) => {
       this.newNodes.nodes[node].isEnd
         ? (backtrackNode = this.newNodes.nodes[node])
         : null;
@@ -62,6 +60,14 @@ class Grid {
       this.shortestPath.addEdge(backtrackNode, backtrackNode.previousNode);
       backtrackNode = backtrackNode.previousNode;
     }
+  }
+
+  getNumberOfNodes() {
+    return Object.keys(this.newNodes.nodes).length;
+  }
+
+  getNumberOfEdges() {
+    return Object.keys(this.newEdges.edges).length;
   }
 
   show() {
